@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<type-mapping>
+		<sql-type jdbc-type="INTEGER" hibernate-type="int"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="DATETIME" hibernate-type="timestamp"
+			length="18" not-null="false">
+		</sql-type>
+		<sql-type jdbc-type="VARCHAR" hibernate-type="string"
+			length="45" not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="DOUBLE" hibernate-type="double"
+			precision="10" not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="CHAR" hibernate-type="string" length="6"
+			not-null="true">
+		</sql-type>
+		<sql-type jdbc-type="TINYINT" hibernate-type="int"
+			not-null="false">
+		</sql-type>
+	</type-mapping>
+	<table-filter match-name="activity" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="address" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="availability" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="category" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="city" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="facility" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="facility_activity"
+		match-catalog="active_v2">
+	</table-filter>
+	<table-filter match-name="language" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="language_translation"
+		match-catalog="active_v2">
+	</table-filter>
+	<table-filter match-name="reference_facility_locationorigin"
+		match-catalog="active_v2">
+	</table-filter>
+	<table-filter match-name="translation" match-catalog="active_v2"></table-filter>
+	<table-filter match-name="type" match-catalog="active_v2"></table-filter>
+</hibernate-reverse-engineering>

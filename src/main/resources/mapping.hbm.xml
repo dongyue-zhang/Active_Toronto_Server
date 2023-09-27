@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 26, 2023, 1:10:07 a.m. by Hibernate Tools 6.1.7.Final -->
+<hibernate-mapping>
+
+ <class catalog="active_v2" name="businesstier.transferobject.Availability" optimistic-lock="none" table="availability">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Facility" fetch="select" name="facility">
+   <column name="FACILITY_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Activity" fetch="select" name="activity">
+   <column name="ACTIVITY_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="true" name="startTime" type="timestamp">
+   <column length="18" name="START_TIME" not-null="true"/>
+   
+  </property>
+  <property generated="never" lazy="false" name="endTime" type="timestamp">
+   <column length="18" name="END_TIME"/>
+  </property>
+  <property generated="never" lazy="false" name="isAvailable" type="int">
+   <column name="IS_AVAILABLE"/>
+  </property>
+  <property generated="never" lazy="false" name="minAge" type="java.lang.Integer">
+   <column name="MIN_AGE"/>
+  </property>
+  <property generated="never" lazy="false" name="maxAge" type="java.lang.Integer">
+   <column name="MAX_AGE"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+<!--   <filter name="startDateFilter" condition="START_TIME >= :startDate"/> -->
+<!--   <filter name="startDateFilter" condition="START_TIME >= :startDateParam"/> -->
+<!--   <query name="Availability_FindByType">
+  	<![CDATA[SELECT * from Availability as availability inner join (SELECT * from Activity inner join activity.title_translation_id inner join (SELECT * from translation inner join translation.id as translation) as activity) inner join (SELECT * from Facility inner join Facility.title_translation_id inner join translation as facility) inner join (SELECT * from Address inner join Address.street_traslation_id inner join traslation.id as address) where activity.description = :type]]>
+  </query> -->
+ </class>
+ 
+ <class name="businesstier.transferobject.Type" table="type">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Category" fetch="select" name="category">
+   <column name="CATEGORY_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" name="translation">
+   <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="activities"
+   sort="unsorted" table="activity">
+   <key>
+    <column name="TYPE_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Activity"/>
+  </set>
+<!--   <query name="Type_FindByTranslationId">
+  	<![CDATA[from Type as type where title_translation_id = :translationId]]>
+  </query>
+	<query name="Type_FindAll">
+		<![CDATA[from Type]]>
+	</query>
+    <query name="Type_FindById">
+  		<![CDATA[from Type where id = :id]]>
+    </query>
+	<query name="Type_FindByDes">
+		<![CDATA[select t from Type as t inner join t.translation tt inner join tt.languageTranslations ttl where ttl.description = :des]]>
+	</query>
+	<query name="Type_FindByCategory">
+	  	<![CDATA[select t from Type as t inner join t.category tc inner join tc.translation tct inner join tct.languageTranslations tctl where tctl.description = :category]]>
+	</query>
+	<query name="Type_FindByFacilityId">
+		<![CDATA[select t from Type as t inner join t.activities ta inner join ta.facilityActivities taf where taf.facility.id = :facilityId]]>
+	</query>
+	<query name="Type_FindByContaining">
+		<![CDATA[select t from Type as t inner join t.translation tt inner join tt.languageTranslations ttl where ttl.description like CONCAT('%', :search, '%')]]>
+	</query> -->
+
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Activity" optimistic-lock="none" table="activity">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Type" fetch="select" name="type">
+   <column name="TYPE_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" name="translation">
+   <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="availabilities"
+   sort="unsorted" table="availability">
+   <key>
+    <column name="ACTIVITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Availability"/>
+   <filter name="startDateFilter" condition="START_TIME >= '2023-06-01 00:00:00'"/>
+  </set>
+  <set fetch="select" inverse="true" lazy="true"
+   name="facilityActivities" sort="unsorted" table="facility_activity">
+   <key>
+    <column name="ACTIVITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.FacilityActivity"/>
+  </set>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Address" optimistic-lock="none" table="address">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" name="translation">
+   <column name="STREET_TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="city" type="string">
+   <column length="45" name="CITY" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="province" type="string">
+   <column length="45" name="PROVINCE" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="postalCode" type="string">
+   <column length="6" name="POSTAL_CODE" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="country" type="string">
+   <column length="45" name="COUNTRY" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="longitude" type="double">
+   <column name="LONGITUDE" not-null="true" precision="8" scale="6"/>
+  </property>
+  <property generated="never" lazy="false" name="latitude" type="double">
+   <column name="LATITUDE" not-null="true" precision="8" scale="6"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+   <one-to-one name="facility" class="businesstier.transferobject.Facility"/>
+ </class>
+ 
+
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Category" optimistic-lock="none" table="category">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" name="translation">
+   <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.City" fetch="select" name="city">
+   <column name="CITY_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="types"
+   sort="unsorted" table="type">
+   <key>
+    <column name="CATEGORY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Type"/>
+  </set>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.City" optimistic-lock="none" table="city">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <property generated="never" lazy="false" name="title" type="string">
+   <column length="45" name="TITLE" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="categories"
+   sort="unsorted" table="category">
+   <key>
+    <column name="CITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Category"/>
+  </set>
+  <set fetch="select" inverse="true" lazy="true" name="facilities"
+   sort="unsorted" table="facility">
+   <key>
+    <column name="CITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Facility"/>
+  </set>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Facility" optimistic-lock="none" table="facility">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <many-to-one class="businesstier.transferobject.Address" fetch="select" name="address">
+   <column name="ADDRESS_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" name="translation">
+   <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.City" fetch="select" name="city">
+   <column name="CITY_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="phone" type="string">
+   <column length="12" name="PHONE"/>
+  </property>
+  <property generated="never" lazy="false" name="url" type="string">
+   <column length="200" name="URL"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true" name="availabilities"
+   sort="unsorted" table="availability">
+   <key>
+    <column name="FACILITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Availability"/>
+  </set>
+  <one-to-one class="businesstier.transferobject.ReferenceFacilityLocationorigin" name="referenceFacilityLocationorigin"/>
+  <set fetch="select" inverse="true" lazy="true"
+   name="facilityActivities" sort="unsorted" table="facility_activity">
+   <key>
+    <column name="FACILITY_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.FacilityActivity"/>
+  </set>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.FacilityActivity"
+  optimistic-lock="none" table="facility_activity">
+  <composite-id class="businesstier.transferobject.FacilityActivityId" mapped="false" name="id" unsaved-value="undefined">
+   <key-property name="activityId" type="int">
+    <column name="ACTIVITY_ID"/>
+   </key-property>
+   <key-property name="facilityId" type="int">
+    <column name="FACILITY_ID"/>
+   </key-property>
+  </composite-id>
+  <many-to-one class="businesstier.transferobject.Facility" fetch="select" insert="false"
+   name="facility" update="false">
+   <column name="FACILITY_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Activity" fetch="select" insert="false"
+   name="activity" update="false">
+   <column name="ACTIVITY_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Language" optimistic-lock="none" table="language">
+  <id name="id" type="string">
+   <column length="2" name="ID"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="title" type="string">
+   <column length="45" name="TITLE" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <set fetch="select" inverse="true" lazy="true"
+   name="languageTranslations" sort="unsorted" table="language_translation">
+   <key>
+    <column length="2" name="LANGUAGE_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.LanguageTranslation"/>
+  </set>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.LanguageTranslation"
+  optimistic-lock="none" table="language_translation">
+  <composite-id class="businesstier.transferobject.LanguageTranslationId" mapped="false" name="id" unsaved-value="undefined">
+   <key-property name="languageId" type="string">
+    <column length="2" name="LANGUAGE_ID"/>
+   </key-property>
+   <key-property name="translationId" type="int">
+    <column name="TRANSLATION_ID"/>
+   </key-property>
+  </composite-id>
+  <many-to-one class="businesstier.transferobject.Language" fetch="select" insert="false"
+   name="language" update="false">
+   <column length="2" name="LANGUAGE_ID" not-null="true"/>
+  </many-to-one>
+  <many-to-one class="businesstier.transferobject.Translation" fetch="select" insert="false"
+   name="translation" update="false">
+   <column name="TRANSLATION_ID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="description" type="string">
+   <column length="255" name="DESCRIPTION" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.ReferenceFacilityLocationorigin"
+  optimistic-lock="none" table="reference_facility_locationorigin">
+  <id name="facilityId" type="int">
+   <column name="FACILITY_ID"/>
+   <generator class="foreign">
+    <param name="property">facility</param>
+   </generator>
+  </id>
+  <one-to-one class="businesstier.transferobject.Facility" constrained="true" name="facility"/>
+  <property generated="never" lazy="false" name="locationId" type="int">
+   <column name="LOCATION_ID" not-null="true"/>
+  </property>
+ </class>
+ 
+ <class catalog="active_v2" name="businesstier.transferobject.Translation" optimistic-lock="none" table="translation">
+  <id name="id" type="int">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <property generated="never" lazy="false" name="lastUpdated" type="timestamp">
+   <column length="18" name="LAST_UPDATED"/>
+  </property>
+  <!-- <set fetch="select" inverse="true" lazy="true" name="addresses"
+   sort="unsorted" table="address">
+   <key>
+    <column name="STREET_TRANSLATION_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Address"/>
+  </set> -->
+  <set fetch="select" inverse="true" lazy="true"
+   name="languageTranslations" sort="unsorted" table="language_translation">
+   <key>
+    <column name="TRANSLATION_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.LanguageTranslation"/>
+  </set>
+  <!-- <set fetch="select" inverse="true" lazy="true" name="categories"
+   sort="unsorted" table="category">
+   <key>
+    <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Category"/>
+  </set> -->
+  <!-- <set fetch="select" inverse="true" lazy="true" name="facilities"
+   sort="unsorted" table="facility">
+   <key>
+    <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Facility"/>
+  </set> -->
+  <!-- <set fetch="select" inverse="true" lazy="true" name="activities"
+   sort="unsorted" table="activity">
+   <key>
+    <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+   </key>
+   <one-to-many class="businesstier.transferobject.Activity"/>
+  </set> -->
+  <!-- <set fetch="select" inverse="true" lazy="true" name="types"
+   sort="unsorted" table="type">
+   <key>
+    <column name="TITLE_TRANSLATION_ID" not-null="true"/>
+   </key> 
+   <one-to-many class="businesstier.transferobject.Type"/>
+  </set> -->
+ </class>
+
+	<query name="Type_FindAll">
+		<![CDATA[from Type]]>
+	</query>
+    <query name="Type_FindById">
+  		<![CDATA[from Type where id = :id]]>
+    </query>
+	<query name="Type_FindByDes">
+		<![CDATA[select t from Type as t inner join t.translation tt inner join tt.languageTranslations ttl where ttl.description = :des]]>
+	</query>
+	<query name="Type_FindByCategoryId">
+	  	<![CDATA[select t from Type t where t.category.id = :categoryId]]>
+	</query>
+	<query name="Type_FindByFacilityId">
+		<![CDATA[select t from Type as t inner join t.activities ta inner join ta.facilityActivities taf where taf.facility.id = :facilityId]]>
+	</query>
+	<query name="Type_FindByContaining">
+		<![CDATA[select t from Type as t inner join t.translation tt inner join tt.languageTranslations ttl where ttl.description like CONCAT('%', :search, '%')]]>
+	</query>
+	
+	<query name="Availability_FindAll">
+		<![CDATA[from Availability]]>
+	</query>
+	<query name="Availability_FindById">
+		<![CDATA[from Availability a where a.id = :id]]>
+	</query>
+	<query name="Availability_FindByType">
+		<![CDATA[select a from Availability a inner join a.activity aa inner join aa.type aat inner join aat.translation aatt inner join aatt.languageTranslations aattl where aattl.description = :type]]>
+	</query>
+	<query name="Availability_FindByActivity">
+		<![CDATA[select a from Availability a inner join a.activity aa inner join aa.translation aat inner join aat.languageTranslations aatl where aatl.description = :activity]]>
+	</query>
+	<query name="Availability_FindByFacility">
+		<![CDATA[select a from Availability a inner join a.facility af inner join af.translation aft inner join aft.languageTranslations aftl where aatl.description = :facility]]>
+	</query>
+	<query name="Availability_FindByContaining">
+		<![CDATA[select a from Availability a inner join a.activity aa inner join aa.translation aat inner join aat.languageTranslations aatl where aatl.description like CONCAT('%', :search, '%')]]>
+	</query>
+	
+	<query name="Facility_FindByDes">
+		<![CDATA[select f from Facility f inner join f.translation ft inner join ft.languageTranslations ftl where ftl.description = :facility]]>
+	</query>
+	<query name="Facility_FindById">
+		<![CDATA[from Facility where id = :id]]>
+	</query>
+	<query name="Facility_FindAll">
+		<![CDATA[from Facility]]>
+	</query>
+	<query name="Facility_FindByTypeId">
+		<![CDATA[select f from Facility f inner join f.facilityActivities ff inner join ff.activity ffa where ffa.type.id = :typeId]]>
+	</query>
+	<query name="Facility_FindByContaining">
+		<![CDATA[select f from Facility f inner join f.translation ft inner join ft.languageTranslations ftl where ftl.description like CONCAT('%', :search, '%')]]>
+	</query>
+	
+	<query name="Address_FindByFacility">
+		<![CDATA[select a from Address a inner join a.facility af inner join af.translation aft inner join aft.languageTranslations aftl where aftl.description = :facility]]>
+	</query>
+	<query name="Address_FindById">
+		<![CDATA[from Address a where a.id = :id]]>
+	</query>
+	<query name="Address_FindAll">
+		<![CDATA[from Address]]>
+	</query>
+	<query name="Address_FindByContaining">
+		<![CDATA[select a from Address a inner join a.facility af inner join af.translation aft inner join aft.languageTranslations aftl where aftl.description like CONCAT('%', :search, '%')]]>
+	</query>
+	
+	<query name="Category_FindById">
+		<![CDATA[from Category c where c.id = :id]]>
+	</query>
+	<query name="Category_FindAll">
+		<![CDATA[from Category]]>
+	</query>
+	<query name="Category_FindByDes">
+		<![CDATA[select c from Category c inner join c.translation ct inner join ct.languageTranslations ctl where ctl.description = :des]]>
+	</query>
+	
+	<query name="Category_FindByContaining">
+		<![CDATA[select c from Category c inner join c.translation ct inner join ct.languageTranslations ctl where ctl.description like CONCAT('%', :search, '%')]]>
+	</query>
+	
+	<query name="Activity_FindById">
+		<![CDATA[select a from Activity a where a.id = :id]]>
+	</query>
+	<query name="Activity_FindAll">
+		<![CDATA[from Activity]]>
+	</query>
+	<query name="Activity_FindByTypeId">
+		<![CDATA[select a from Activity a where a.type.id = :typeId]]>
+	</query>
+	<filter-def name="startDateFilter">
+<!-- 		<filter-param name="startDate" type="timestamp"/> -->
+	</filter-def>
+<!-- 	<query name="Activity_FindByFacilityIdAndTypeId">
+		<![CDATA[select a from Activity a inner join facilityActivities af where af.facility.id = :facilityId and a.type.id = :typeId ]]>
+	</query> -->
+
+<!-- 	<filter-def name="facilityFilter">
+		<filter-param name="facility" type="string"/>
+	</filter-def> -->
+<!-- 	<query name="Availability_FindByFacilityAndType">
+		<![CDATA[from c (select avai from Availability avai inner join avai.facility avaif inner join avaif.translation avaift inner join avaift.languageTranslations avaiftl where avaiftl.description = :facility) c inner join (select a from Availability a inner join a.activity aa inner join aa.type aat inner join aat.translation aatt inner join aatt.languageTranslations aattl where aattl.description = :type) b on (c.id=b.id) ]]>
+	</query> -->
+<!-- 	<query name="Availability_FindByFacilityAndType">
+		<![CDATA[from Availability a where (:facility == a.facility.translation.languageTranslations[0].description or :facility == a.facility.translation.languageTranslations[1].description) and (:type == a.activity.type.translation.languageTranslations[0].description or :type == a.activity.type.translation.languageTranslations[1].decription)]]>
+	</query> -->
+	
+	<!-- <sql-query name="Availability_FindByFacilityAndType">
+	<return alias="avai" class="businesstier.transferobject.Availability"/>
+	<return-join alias="activity" property="avai.activity" />
+	<return-join alias="type" property="activity.type"/>
+	<return-join alias="translation" property="type.translation"/>
+	<return-join alias="languageTranslation" property="translation.languageTranslations"/>
+		<![CDATA[from (select av from Availability av inner join av.facility avf inner join avf.translation avft inner join avft.languageTranslations avftl where avftl.description = :facility) join (select av from Availability av inner join av.activity ava inner join ava.type avat inner join avat.translation avatt inner join avatt.languageTranslations avattl where avattl.description = :type)]]>
+		<![CDATA[select  from Availability avai inner join Facility inner join Translation inner join Language_Translations where description = :facility inner join (select * from Availability inner join Activity inner join Type inner join Translation inner join LanguageTranslations where Sdescription = :type)]]>
+	</sql-query> -->
+
+</hibernate-mapping>

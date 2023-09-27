@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  
+	<modelVersion>4.0.0</modelVersion>
+    
+    <groupId>com.gmail.zhangdongyue22</groupId>
+    <artifactId>Active-Toronto</artifactId>
+    <version>1</version>
+    <packaging>war</packaging>
+    
+    <name>Active-Toronto</name>
+    
+    <properties>
+    	<endorsed.dir>${project.build.directory}</endorsed.dir>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>7.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
+		<!--dependency>
+		    <groupId>jakarta.persistence</groupId>
+		    <artifactId>jakarta.persistence-api</artifactId>
+		    <version>3.1.0</version>
+		</dependency -->
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+		    <version>2.2</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>5.4.10.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.0-api -->
+		<!--dependency>
+		    <groupId>org.hibernate.javax.persistence</groupId>
+		    <artifactId>hibernate-jpa-2.0-api</artifactId>
+		    <version>1.0.0.Final</version>
+		</dependency-->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+		<!--dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>8.0.0.Final</version>
+		</dependency-->
+		<!-- provide second level caching functionality -->
+	    <!-- provide ehcache integration with hibernate -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-ehcache</artifactId>
+		    <version>5.4.10.Final</version>
+		    <exclusions>
+		     <exclusion>
+		         <groupId>net.sf.ehcache</groupId>
+		         <artifactId>ehcache</artifactId>
+		     </exclusion>
+		     </exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>2.6.9</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.31</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-tools -->
+		<!--dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-tools</artifactId>
+		    <version>5.6.15.Final</version>
+		</dependency-->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.tool/hibernate-tools-maven -->
+		<!-- dependency>
+		    <groupId>org.hibernate.tool</groupId>
+		    <artifactId>hibernate-tools-maven</artifactId>
+		    <version>6.2.2.Final</version>
+		</dependency-->
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.20.0</version>
+		</dependency>
+		<!--dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-jpamodelgen</artifactId>
+		    <version>6.1.7.Final</version>
+		</dependency-->
+
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20230618</version>
+		</dependency>
+		<!-- API, java.xml.bind module -->
+		<dependency>
+		    <groupId>jakarta.xml.bind</groupId>
+		    <artifactId>jakarta.xml.bind-api</artifactId>
+		    <version>4.0.0</version>
+		</dependency>
+		
+		<!-- Runtime, com.sun.xml.bind module -->
+		<dependency>
+		    <groupId>org.glassfish.jaxb</groupId>
+		    <artifactId>jaxb-runtime</artifactId>
+		    <version>2.3.2</version>
+		</dependency>
+		<dependency>
+		   <groupId>jakarta.servlet</groupId>
+		   <artifactId>jakarta.servlet-api</artifactId>
+		   <version>5.0.0</version>
+		   <scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.logging/jboss-logging -->
+		<dependency>
+		    <groupId>org.jboss.logging</groupId>
+		    <artifactId>jboss-logging</artifactId>
+		    <version>3.3.2.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy -->
+		<dependency>
+		    <groupId>net.bytebuddy</groupId>
+		    <artifactId>byte-buddy</artifactId>
+		    <version>1.10.2</version>
+		</dependency>
+		<!--dependency>
+		    <groupId>org.apache.tomcat.maven</groupId>
+		    <artifactId>tomcat8-maven-plugin</artifactId>
+		    <version>3.0-r1756463</version>
+		</dependency-->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+		<!--dependency>
+		    <groupId>org.hibernate.common</groupId>
+		    <artifactId>hibernate-commons-annotations</artifactId>
+		    <version>5.1.0.Final</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>5.0.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-hikaricp</artifactId>
+		    <version>5.4.10.Final</version>
+		</dependency-->
+
+		
+
+
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>1.8</source> 
+					<target>1.8</target>
+					<compilerArguments>
+						<endorseddirs>${endorsed.dir}</endorseddirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+				<execution>
+					<phase>validate</phase>
+					<goals>
+						<goal>copy</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${endorsed.dir}</outputDirectory>
+						<silent>true</silent>
+						<artifactItems>
+							<artifactItem>
+								<groupId>javax</groupId>
+								<artifactId>javaee-endorsed-api</artifactId>
+								<version>7.0</version>
+								<type>jar</type>
+							</artifactItem>
+						</artifactItems>
+					</configuration>
+				</execution>
+				</executions> 
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+			    <artifactId>tomcat8-maven-plugin</artifactId>
+			    <version>3.0-r1756463</version>
+				<configuration>
+					<url>http://localhost:8080/Active-Toronto/</url>
+					<server>TomcatServer</server>
+					<contextFile>${endorsed.dir}/Active-Toronto-1/WEB-INF/tomcat-web.xml</contextFile>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+		
+			<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+			    <resources>
+       <resource>
+          <filtering>false</filtering>
+             <directory>src/main/java</directory>
+             <includes>
+                 <include>*.xml</include>
+             </includes>
+       </resource>
+       <resource>
+           <directory>src/main/resources</directory>
+       </resource>
+   </resources>
+			
+	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>alfresco-public</id>
+			<url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>alfresco-public-snapshots</id>
+			<url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	
+</project>

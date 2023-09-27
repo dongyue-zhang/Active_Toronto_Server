@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.connection.datasource">java:/comp/env/jdbc/Active_v2</property>
+  <!--   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/active_v2?zeroDateTimeBehavior=convertToNull</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.connection.password">zdy15994357865</property> -->
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.show_sql">false</property>
+  <property name="format_sql">true</property>
+  <property name="use_sql_comments">true</property>
+  <property name="hibernate.cache.region_prefix">hibernate.test</property>
+  <property name="hibernate.connection.pool_size">10</property>
+  <property name="hibernate.connection.pool_validation_interval">200000</property>
+  <property name="hibernate.connection.initial_pool_size">5</property>
+  <property name="hibernate.current_session_context_class">thread</property>
+  <property name="hibernate.enable_lazy_load_no_trans">true</property>
+<!--   <property name="hibernate.connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property> -->
+ <!--  <property name="hibernate.hikari.dataSourceClassName">com.mysql.jdbc.jdbc2.optional.MysqlDataSource</property>
+	Maximum waiting time for a connection from the pool
+	<property name="hibernate.hikari.connectionTimeout">10000</property>
+	
+	Minimum number of ideal connections in the pool
+	<property name="hibernate.hikari.minimumIdle">20</property>
+	
+	Maximum number of actual connection in the pool
+	<property name="hibernate.hikari.maximumPoolSize">300</property>
+	
+	Maximum time that a connection is allowed to sit ideal in the pool
+	<property name="hibernate.hikari.idleTimeout">200000</property> -->
+  <!-- <property name="hibernate.current_session_context_class">thread</property> -->
+  <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
+  <mapping resource="mapping.hbm.xml"/>
+ </session-factory>
+</hibernate-configuration>

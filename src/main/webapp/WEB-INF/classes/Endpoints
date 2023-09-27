@@ -1,0 +1,25 @@
+{
+    "/types": {
+        "^/?|(?:\\?sort=popular?:)(?:&page=\\d+&size=\\d+?:)$": "GetAllTypes",
+        "^/\\d+/activities/?|(?:\\?sort=time|distance?:)$": "GetActivitiesWithType",
+        "^/\\d+/facilities": "GetFacilitiesWithType"
+    },
+    "/activities": {
+        "/?": "GetAll",
+        "^/\\d+/?": "GetWithId",
+        "^/availabilities": "GetAllAvailabilities"
+    },
+    "/categories": {
+        "/?": "GetAll",
+        "^/\\d+/types": "GetTypeByCategory"
+    },
+    "/facilities": {
+        "/?": "GetAll",
+        "^/\\d+/?$": "GetWithId",
+        "^/\\d+/types/\\d+/?$": "GetWithType",
+        "^/\\d+/types/?$": "GetAllTypesWithId",
+        "^/\\d+/types/\\d+/activities/?$": "GetActivitiesWithFacilityAndType",
+        "^/\\d+/categories$": "GetCategoriesByFacility",
+        "^/\\d+/categories/\\d+/types/?$": "GetTypesByFacilityAndCategory"
+    }
+}
